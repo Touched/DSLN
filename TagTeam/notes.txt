@@ -1,0 +1,30 @@
+Set flag to enable tag team battle. Any battles will become double battles with partner.
+Load a partner from a specific offset in ram, including name, team, etc.
+No exp gain for partner PKMN
+No learned moves (no exp)
+No evolve (no exp)
+
+ROM:08163E2C                 LDR     R1, =dword_2022FEC ; jumptable 08163AE2 case 8
+ROM:08163E2E                 LDR     R0, =0x408049
+ROM:08163E30                 STR     R0, [R1]
+ROM:08163E32                 LDR     R5, =0xC03
+ROM:08163E34                 MOVS    R0, R5
+ROM:08163E36                 BL      load_partner_pkmn ; do something with chosen pkmn
+ROM:08163E3A                 LDR     R4, =byte_2038BFC
+ROM:08163E3C                 MOVS    R0, #0          ; slot
+ROM:08163E3E                 STRB    R0, [R4]
+ROM:08163E40                 LDR     R0, =tag_team_maxie ; trainer data
+ROM:08163E42                 BL      load_enemy_trainer_data
+ROM:08163E46                 MOVS    R0, #1          ; slot
+ROM:08163E48                 STRB    R0, [R4]
+ROM:08163E4A                 LDR     R0, =0x8224167  ; trainer data
+ROM:08163E4C                 BL      load_enemy_trainer_data
+ROM:08163E50                 LDR     R0, =word_2038BCE
+ROM:08163E52                 STRH    R5, [R0]
+ROM:08163E54                 LDR     R0, =0x8163A8D  ; callback
+ROM:08163E56                 MOVS    R1, #1
+ROM:08163E58                 BL      task_add
+ROM:08163E5C                 MOVS    R0, #0
+ROM:08163E5E                 BL      battle_music
+ROM:08163E62                 MOVS    R0, #0x12       ; Splash style
+ROM:08163E64                 BL      load_battle_callback

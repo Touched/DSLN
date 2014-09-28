@@ -6,10 +6,6 @@
 
 @ Hook here 080B0804
 
-@ Bugs:
-@   If you only have one Pokemon it doesn't load the second oponent
-@   Glitches if only one opponent sees you. DP just makes these 1v1 (no tag teams with 2v1)
-
 main:
     push {lr}
     
@@ -74,6 +70,15 @@ hook:
     
     @ Set battle flags. This makes it a tag team
     ldr r1, battle_type_flags
+    
+    @ Check the battle flags
+    ldr r0, [r1]
+    ldr r2, =0x8001 @ These flags are set if two trainers spotted you
+    and r2, r0 
+    cmp r2, #0
+    beq no_tag_team
+    
+    @ Tag team flags
     ldr r0, =0x408049
     str r0, [r1]
     

@@ -6,6 +6,10 @@
 
 main:
     push {lr}
+    
+    @ Restore the party, no matter the outcome (special 29)
+    bl restore_party
+    
     bl check_victory
     cmp r0, #0
     bne normal
@@ -29,6 +33,10 @@ sub_80860C8:
     
 check_victory:
     ldr r0, =(0x08139E80 + 1)
+    bx r0
+    
+restore_party:
+    ldr r0, =(0x08076DD4 + 1)
     bx r0
     
 setflags:

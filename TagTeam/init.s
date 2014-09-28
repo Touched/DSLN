@@ -8,8 +8,6 @@
 
 @ Bugs:
 @   If you only have one Pokemon it doesn't load the second oponent
-@   Trainer flags aren't set
-@   Your party isn't restored
 @   Glitches if only one opponent sees you. DP just makes these 1v1 (no tag teams with 2v1)
 
 main:
@@ -81,7 +79,7 @@ hook:
     
     @ Store the players team
     @ Using special 0x28's code. Will be restored by special 0x29 after the battle
-    bl special28
+    bl store_party
     
     @ Load the partner's Pokemon from the tag team table
     ldr r0, =TAG_TEAM_VAR
@@ -139,10 +137,13 @@ checkflag:
 var_load:
     ldr r1, =(0x0809D694 + 1)
     bx r1
+    
+store_party:
+    ldr r0, =(0x08076D8C + 1)
+    bx r0
 
 .align 2
 battle_type_flags: .word 0x02022FEC
-special28: .word 0x08076D8C + 1
 pokemon_party: .word 0x020244EC + (3 * 0x64) @ lower half of party
 tag_team_enabled_flag: .word 0x200
 

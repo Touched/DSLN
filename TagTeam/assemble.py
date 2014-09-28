@@ -55,6 +55,8 @@ with open('test.gba', 'rb+') as rom:
     
     hook('exit.s', 'test.gba', 0xE90000, 0x0861CC)
     
+    hook('doublecheck.s', 'test.gba', 0xEA0000, 0x06B68C)
+    
     assemble('othername.s', 'test.gba', 0xE80000)
     rom.seek(0x06EC14)
     rom.write(b'\x00\x47')

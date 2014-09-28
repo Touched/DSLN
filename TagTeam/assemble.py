@@ -43,6 +43,54 @@ with open('test.gba', 'rb+') as rom:
     
     hook('noexp.s', 'test.gba', 0xE00000, 0x04A728)
     
+    hook('init.s', 'test.gba', 0xE10000, 0x0B0804)
+    
+    hook('backsprite.s', 'test.gba', 0xE40000, 0x1BD38E)
+    
+    hook('palettefix.s', 'test.gba', 0xE50000, 0x1BE1C0)
+    
+    hook('battlename.s', 'test.gba', 0xE70000, 0x162E68)
+    
+    hook('othername.s', 'test.gba', 0xE80000, 0x06EC14)
+    
+    hook('exit.s', 'test.gba', 0xE90000, 0x0861CC)
+    
+    assemble('othername.s', 'test.gba', 0xE80000)
+    rom.seek(0x06EC14)
+    rom.write(b'\x00\x47')
+    rom.seek(0x06EC24)
+    rom.write(b'\x01\x00\xE8\x08')
+    
+    # Write Trainer Class
+    assemble('trainerclass.s', 'test.gba', 0xE60000)
+    rom.seek(0x162C24)
+    rom.write(b'\x00\x47\x00\x00\x00\x00')
+    rom.seek(0x162C30)
+    rom.write(b'\x01\x00\xE6\x08')
+    
+    pokes = []
+    with open('dump.bin', 'rb') as binary:
+        for i in range(3):
+            binary.seek(i * 100)
+            pokes.append(binary.read(80))
+            
+    output = b''.join(pokes)
+    
+    rom.seek(0xE30000)
+    rom.write(output)
+            
+    output = b''
+    name = bytearray.fromhex('CE E3 E9 D7 DC D9 D8 FF')
+    
+    output = name + b'\x03' + b'\x00' + b'\x00' + b'\x00' + b'\x06'
+    output += b'\x00' + b'\x00' + b'\x00'
+    
+    pointers = b''.join((0x08E30000 + (i * 80)).to_bytes(4, 'little') for i in range(3))
+    output += pointers
+    
+    rom.seek(0xE20000)
+    rom.write(output)
+    
     # From 0808DD04, patch
     # lsl r0, #0x10
     # lsr r0, #0x10

@@ -4,5 +4,4 @@ This repository will house alll the assembly source code, as well as the source 
 
 ## Installation
 
-You can use the assemble.py script found in each sub-directory to install the sub-project it belongs to. Right now, you have to manually modify the space used for each hack, but that will change in the future.
-
+Modify config.ini to suit your setup, and then run install.py using Python 3.4 in order to install.

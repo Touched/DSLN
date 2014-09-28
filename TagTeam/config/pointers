@@ -1,0 +1,9 @@
+0004A728: noexp.s
+000B0804: init.s
+001BD38E: backsprite.s
+001BE1C0: palettefix.s
+00162E68: battlename.s
+000861CC: exit.s 
+0006B68C: doublecheck.s
+0006EC24: othername.s
+00162C30: trainerclass.s

@@ -13,7 +13,7 @@ CXX = 'arm-linux-gnueabi-g++'
 def assemble(assembly, rom, offset):
 	subprocess.check_output([AS, '-mthumb', assembly])
 	subprocess.check_output([OBJCOPY, '-O', 'binary', 'a.out', 'a.bin'])
-	os.remove('a.out')
+	os.remove('a.out') 
 	with open(rom, 'rb+') as out, open('a.bin', 'rb') as ins:
 		out.seek(offset)
 		out.write(ins.read())
@@ -51,7 +51,6 @@ with open('test.gba', 'rb+') as rom:
     
     hook('battlename.s', 'test.gba', 0xE70000, 0x162E68)
     
-    hook('othername.s', 'test.gba', 0xE80000, 0x06EC14)
     
     hook('exit.s', 'test.gba', 0xE90000, 0x0861CC)
     

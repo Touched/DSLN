@@ -53,6 +53,7 @@ def change(rom, line):
     offset = int(offset, 16)
     rom.seek(offset)
     rom.write(data)
+    print('Change at', hex(offset), 'applied. Length:', len(data), 'bytes.')
 
 def change_all(rom, path):
     files = os.path.join(path, 'config', 'changes')
@@ -76,7 +77,6 @@ def freespace(rom, size, start, byte):
     # Search until we have found an appropriate offset
     while True:
         place = data.find(search, beg)
-        print(hex(place), beg)
 
         if place == -1:
             raise ValueError('No free space')
@@ -116,11 +116,11 @@ def install_hack(rom, name):
         with open(file, 'rb') as data:
             binary = data.read()
             offset = freespace(rom, len(binary), START, BYTE)
-
             offset_adj = offset + 0x08000000 + 1
 
             for pointer in pointers[src]:
                 rom.seek(pointer)
+                print('Pointer', hex(offset_adj), 'at', hex(pointer))
                 p = offset_adj.to_bytes(4, 'little')
                 rom.write(p)
 

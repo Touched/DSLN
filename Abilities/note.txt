@@ -1,0 +1,26 @@
+The following addresses load the abilities from the ability bit and thus need
+to be nopped out or something.
+08055C52 - 08055C60
+08055CF4 - 08055D04
+08063064 - 08063072
+0806353A - 0806354A
+
+These places store the ability bit on the stack somewhere
+0806544C
+0814BB88
+08168F10
+08187594
+0818A95C
+081BBFD4
+0805A164 
+08060300
+
+These locations are unique in their behaviour and need to be dealt with
+separately
+81c0158
+0805359A
+08062DC6 
+
+Some more.... Yay
+08067E5E
+08068DF8
